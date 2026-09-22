@@ -430,6 +430,7 @@ Monetize the layer **guaranteed visible in 100% of games**: the character's **ap
 | 22 | Speech-driven jaw / mouth flap | §3A | **Next companion spike** (proven analyser + smoothing approach recorded) |
 | 23 | Companion profile + prompt core | §3A | **Foundation slice** (pure prompt layering and real-data filtering started) |
 | 24 | Full-duplex realtime companion shell | §3A | **Local spike** (OpenAI Realtime WebRTC + dev token server; production host open) |
+| 25 | Platform strategy: web-first vs native (iOS) client | §7, §8.7 | **Open — under consideration** (2026-09-21). Web remains the multiplayer join surface (shared game links must play with zero install), so a native pivot pre-validation risks burning the snapshot-boundary architecture for push notifications no one needs yet. Working hypothesis: native app as a *second thin client* over the §8.7 authoritative server, built after the core loop (feed → play → friend joins → replay) is proven. Decision gated on the growth loop: installed-only vs link-shared. |
 | — | Codebase foundation, stack, walking-skeleton first build | `foundation.md` | See companion doc |
 
 ---
