@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.19.3",
-    "three": "latest"
+    "three": "0.184.0"
   },
   "devDependencies": {
     "@eslint/js": "latest",
-    "@types/three": "latest",
+    "@types/three": "0.184.1",
     "eslint": "latest",
     "typescript": "latest",
     "typescript-eslint": "latest",
