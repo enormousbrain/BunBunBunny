@@ -62,7 +62,18 @@
 
     <div class="handoff-fade" aria-hidden="true"></div>
     <button class="game-close" type="button" aria-label="Close game" hidden>X</button>
-    <div class="loading" role="status">Warming up Bunny Boy...</div>
+    <section class="play-controls" aria-label="Play controls" hidden>
+      <button class="play-control play-control--forward" type="button" data-control="forward" aria-label="Move forward">&uarr;</button>
+      <button class="play-control play-control--left" type="button" data-control="left" aria-label="Move left">&larr;</button>
+      <button class="play-control play-control--right" type="button" data-control="right" aria-label="Move right">&rarr;</button>
+      <button class="play-control play-control--back" type="button" data-control="back" aria-label="Move back">&darr;</button>
+      <button class="play-control play-control--jump" type="button" data-jump="true" aria-label="Jump">Jump</button>
+    </section>
+    <section class="voice-panel" aria-label="Companion voice controls">
+      <button class="voice-panel__button" type="button">Talk</button>
+      <p class="voice-panel__status" role="status">Voice off</p>
+    </section>
+    <div class="loading" role="status">Warming up companion...</div>
 
     <nav class="bottom-nav" aria-label="Primary">
       <button class="nav-item is-active" type="button" aria-current="page">

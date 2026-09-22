@@ -110,9 +110,31 @@ The companion gives *voice* to data the app already has — narrating your runs,
 4. **Loyal, not neutral.** The companion is *the player's* friend/hype-buddy, not a neutral narrator that roasts both sides. Warmer, safer with kids, and a stronger attachment hook for the signup wall ("keep your guy" is far stronger if your guy demonstrably knows you).
 5. **Child-safety model, designed in from day one.** An LLM+TTS speaking to minors, referencing real friends by name, needs hard guardrails: output filtering; no commentary on a child's body/appearance/location; resistance to a child steering it anywhere inappropriate; and "recognizes friends" must not become a vector for an adult posing as a friend to reach a child through a trusted mascot.
 
+### Prompt and profile model
+
+The companion brain is layered, not one giant mutable prompt:
+
+1. **Common system prompt.** Platform-wide identity and guardrails: loyal companion, play-focused scope, real-data-only (L7), tone governor, child-safety constraints, and refusal posture.
+2. **`CompanionProfile`.** The internal model for per-user customization. User-facing surfaces call this **Companion Style**, with **Personality Traits** inside it. The profile includes name, style, traits, boundaries, and bounded memory.
+3. **Allowed in-app context.** Current recipe/session telemetry, friend graph facts, player profile fields, and recent gameplay signals. External facts and unverified claims are filtered out before prompt composition.
+
+Learned behavior is stored as bounded companion memory, not as an unlimited diary. Acceptable memory categories: explicit player preference ("less teasing"), gameplay preference ("likes tower-smash games"), and personality adjustment ("celebrates quietly"). Out-of-app facts, body/location commentary, and inferred private-life details are not memory.
+
+The code shape follows the architecture charter: prompt composition, signal filtering, and memory filtering live in the pure core; model calls, TTS, realtime sessions, storage, and moderation APIs live in the shell/server edge.
+
 ### Cost / scarcity model
 
 LLM+TTS inference fires **only on rare, meaningful beats** (a friend is here; you have real history with this game; you just finished one) — never per card. Idle is canned animation; *speech* is the scarce, earned event. The constraint that makes it affordable is the same one that makes it meaningful rather than chatty wallpaper.
+
+### Speech-driven mouth animation (next companion spike)
+
+A prior working prototype established the minimal path for both buffered TTS and full-duplex speech: route **assistant output audio only** through a Web Audio `AnalyserNode`, reuse one frequency buffer, normalize its energy, then apply asymmetric smoothing (fast attack, slower release) each render frame. Keep the energy normalization and smoothing in the pure core; the audio transport only exposes samples and the three.js shell only applies the resulting pose. For Bunny Boy, the runtime drives the exported `mouth_open` morph target instead of rotating a jaw bone; the continuous fuzzy muzzle deforms cleaner as a shape key layered over the body animations. This replaces the temporary one-second jaw oscillator when companion speech work begins.
+
+### Full-duplex realtime spike
+
+The local spike uses OpenAI Realtime over browser WebRTC, with a tiny development token server that mints ephemeral client secrets from `OPENAI_API_KEY`. The browser never stores the standard API key. The shell owns microphone capture, the `oai-events` data channel, remote assistant audio playback, the output-audio analyser, and simple companion action callbacks. Production hosting remains open: Supabase Edge Functions, a dedicated app server, or another trusted backend can replace the local token server as long as the client contract stays the same.
+
+Assistant output audio can pass through lightweight character-voice shaping before it reaches the analyser and speakers. The current Bunny Boy spike uses the proven path from the prior prototype: Rubber Band WASM pitch shift, a small brightness EQ around 3kHz, and a high-pass filter when pitch is raised. The old prototype carried formant/reverb config fields, but those were not real processing stages; do not expose them until there is an actual DSP implementation behind them.
 
 ### Explicitly out of scope
 
@@ -405,6 +427,9 @@ Monetize the layer **guaranteed visible in 100% of games**: the character's **ap
 | 19 | Companion intelligence (LLM+TTS) design | §3A | **v2** (principles locked) |
 | 20 | Root-motion handling for locomotion clips | §3.5 | Open (strip on `run`, keep on `leap`) |
 | 21 | Character production pipeline | §3.5 | **Resolved** (validated end-to-end) |
+| 22 | Speech-driven jaw / mouth flap | §3A | **Next companion spike** (proven analyser + smoothing approach recorded) |
+| 23 | Companion profile + prompt core | §3A | **Foundation slice** (pure prompt layering and real-data filtering started) |
+| 24 | Full-duplex realtime companion shell | §3A | **Local spike** (OpenAI Realtime WebRTC + dev token server; production host open) |
 | — | Codebase foundation, stack, walking-skeleton first build | `foundation.md` | See companion doc |
 
 ---

@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:realtime": "node scripts/realtime-token-server.mjs",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run"
   },
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.19.3",
     "three": "latest"
   },
   "devDependencies": {
