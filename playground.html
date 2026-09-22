@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#16121f" />
+    <title>Bun Bun Bunny — Playground</title>
+    <style>
+      :root {
+        color: #fff8ee;
+        background: #16121f;
+        font-family: Inter, ui-rounded, system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+      body {
+        background: #16121f;
+      }
+      .playground__stage {
+        position: fixed;
+        inset: 0;
+      }
+      .playground__overlay {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        font-size: 0.85rem;
+        line-height: 1.35;
+        pointer-events: none;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+      }
+      .playground__status {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="playground__stage" aria-label="Physics playground"></div>
+    <div class="playground__overlay" role="status">
+      <p class="playground__status">Booting sim...</p>
+      <p class="playground__stats">–</p>
+    </div>
+    <script type="module" src="/src/playground.ts"></script>
+  </body>
+</html>
